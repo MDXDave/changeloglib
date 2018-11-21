@@ -41,7 +41,7 @@ ChangeLog Library is pushed to Maven Central as a AAR, so you just need to add t
 
 ``` groovy
 dependencies {
-    compile 'com.github.gabrielemariotti.changeloglib:changelog:2.1.0'
+    compile 'de.mdxdave:changeloglib:-SNAPSHOT'
 }
 ```
 
