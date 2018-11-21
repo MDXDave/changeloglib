@@ -38,11 +38,11 @@ public class ChangeLogRowHeader extends ChangeLogRow{
     @Override
     public String toString() {
         StringBuilder sb=new StringBuilder();
-        sb.append("header="+super.header);
+        sb.append("header=").append(super.header);
         sb.append(",");
-        sb.append("versionName="+versionName);
+        sb.append("versionName=").append(versionName);
         sb.append(",");
-        sb.append("changeDate="+changeDate);
+        sb.append("changeDate=").append(changeDate);
 
         return sb.toString();
     }

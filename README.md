@@ -11,10 +11,6 @@ Travis dev: [![Build Status](https://travis-ci.org/gabrielemariotti/changeloglib
 ---
 ## Examples
 
-* **Sample** application: The demo is a showcase of the functionality of the library.
-
-	 [![Get it on Google Play](http://www.android.com/images/brand/get_it_on_play_logo_small.png)](https://play.google.com/store/apps/details?id=it.gmariotti.changelog.demo)
-
 * Browse the [source code of the sample application](/ChangeLogDemo) for a complete example of use.
 
 **If you would like, you can support my work, donating through the demo app.**
@@ -119,6 +115,7 @@ License
 -------
 
     Copyright 2013-2015 Gabriele Mariotti
+    Copyright 2018 David Kurz
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

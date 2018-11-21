@@ -1,18 +1,21 @@
-/*******************************************************************************
- * Copyright (c) 2013 Gabriele Mariotti.
+/*
+ * ******************************************************************************
+ *   Copyright (c) 2013-2015 Gabriele Mariotti.
+ *   Copyright (c) 2018 David Kurz.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *   Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- ******************************************************************************/
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
+ *  *****************************************************************************
+ */
 package it.gmariotti.changelibs.library.parser;
 
 import android.content.Context;
@@ -75,7 +78,7 @@ public class XmlParser extends BaseParser {
     private int mChangeLogFileResourceId= Constants.mChangeLogFileResourceId;
     private String mChangeLogFileResourceUrl= null;
 
-    protected ChangeLogAdapter mChangeLogAdapter;
+    private ChangeLogAdapter mChangeLogAdapter;
 
     //--------------------------------------------------------------------------------
     //TAGs and ATTRIBUTEs in xml file
@@ -200,7 +203,7 @@ public class XmlParser extends BaseParser {
      * @param parser
      * @param changeLog
      */
-    protected void readChangeLogNode(XmlPullParser parser,ChangeLog changeLog) throws Exception{
+    private void readChangeLogNode(XmlPullParser parser, ChangeLog changeLog) throws Exception{
 
         if (parser==null || changeLog==null) return;
 
@@ -240,7 +243,7 @@ public class XmlParser extends BaseParser {
      * @param changeLog
      * @throws Exception
      */
-    protected void readChangeLogVersionNode(XmlPullParser parser, ChangeLog changeLog) throws  Exception{
+    private void readChangeLogVersionNode(XmlPullParser parser, ChangeLog changeLog) throws  Exception{
 
         if (parser==null) return;
 

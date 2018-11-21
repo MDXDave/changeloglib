@@ -1,6 +1,7 @@
 /*
  * ******************************************************************************
  *   Copyright (c) 2013-2015 Gabriele Mariotti.
+ *   Copyright (c) 2018 David Kurz.
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
@@ -18,24 +19,23 @@
 
 package it.gmariotti.changelibs.library.view;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import it.gmariotti.changelibs.R;
 import it.gmariotti.changelibs.library.Constants;
 import it.gmariotti.changelibs.library.Util;
 import it.gmariotti.changelibs.library.internal.ChangeLog;
-import it.gmariotti.changelibs.library.internal.ChangeLogAdapter;
 import it.gmariotti.changelibs.library.internal.ChangeLogRecyclerViewAdapter;
-import it.gmariotti.changelibs.library.internal.ChangeLogRow;
 import it.gmariotti.changelibs.library.parser.XmlParser;
 
 /**
@@ -105,7 +105,7 @@ public class ChangeLogRecyclerView extends RecyclerView {
      */
     protected void initLayoutManager() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
         this.setLayoutManager(layoutManager);
     }
 
@@ -158,12 +158,8 @@ public class ChangeLogRecyclerView extends RecyclerView {
             mAdapter.setRowHeaderLayoutId(mRowHeaderLayoutId);
 
             //Parse in a separate Thread to avoid UI block with large files
-            if (mChangeLogFileResourceUrl==null || (mChangeLogFileResourceUrl!=null && Util.isConnected(getContext()))) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-                    new ParseAsyncTask(mAdapter, parse).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                else
-                    new ParseAsyncTask(mAdapter, parse).execute();
-            }
+            if (mChangeLogFileResourceUrl==null || (mChangeLogFileResourceUrl!=null && Util.isConnected(getContext())))
+                new ParseAsyncTask(mAdapter, parse).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             else
                 Toast.makeText(getContext(), R.string.changelog_internal_error_internet_connection, Toast.LENGTH_LONG).show();
             setAdapter(mAdapter);
@@ -179,12 +175,13 @@ public class ChangeLogRecyclerView extends RecyclerView {
      * Async Task to parse xml file in a separate thread
      *
      */
+    @SuppressLint("StaticFieldLeak")
     protected class ParseAsyncTask extends AsyncTask<Void, Void, ChangeLog> {
 
         private ChangeLogRecyclerViewAdapter mAdapter;
         private XmlParser mParse;
 
-        public ParseAsyncTask(ChangeLogRecyclerViewAdapter adapter,XmlParser parse){
+        ParseAsyncTask(ChangeLogRecyclerViewAdapter adapter, XmlParser parse){
             mAdapter=adapter;
             mParse= parse;
         }
@@ -194,8 +191,7 @@ public class ChangeLogRecyclerView extends RecyclerView {
 
             try{
                 if (mParse!=null){
-                    ChangeLog chg=mParse.readChangeLogFile();
-                    return chg;
+                    return mParse.readChangeLogFile();
                 }
             }catch (Exception e){
                 Log.e(TAG,getResources().getString(R.string.changelog_internal_error_parsing),e);

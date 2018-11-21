@@ -1,20 +1,24 @@
-/*******************************************************************************
- * Copyright (c) 2013 Gabriele Mariotti.
+/*
+ * ******************************************************************************
+ *   Copyright (c) 2013-2015 Gabriele Mariotti.
+ *   Copyright (c) 2018 David Kurz.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *   Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- ******************************************************************************/
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
+ *  *****************************************************************************
+ */
 package it.gmariotti.changelibs.library.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
@@ -144,12 +148,8 @@ public class ChangeLogListView extends ListView implements AdapterView.OnItemCli
 			mAdapter.setmRowHeaderLayoutId(mRowHeaderLayoutId);
 
 			//Parse in a separate Thread to avoid UI block with large files
-			if (mChangeLogFileResourceUrl==null || (mChangeLogFileResourceUrl!=null && Util.isConnected(getContext()))) {
-			    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-			        new ParseAsyncTask(mAdapter, parse).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-			    else
-			        new ParseAsyncTask(mAdapter, parse).execute();
-            }
+			if (mChangeLogFileResourceUrl==null || (mChangeLogFileResourceUrl!=null && Util.isConnected(getContext())))
+			    new ParseAsyncTask(mAdapter, parse).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 			else
 				Toast.makeText(getContext(),R.string.changelog_internal_error_internet_connection,Toast.LENGTH_LONG).show();
 			setAdapter(mAdapter);
@@ -164,12 +164,13 @@ public class ChangeLogListView extends ListView implements AdapterView.OnItemCli
      * Async Task to parse xml file in a separate thread
      *
      */
+    @SuppressLint("StaticFieldLeak")
     protected class ParseAsyncTask extends AsyncTask<Void, Void, ChangeLog>{
 
         private ChangeLogAdapter mAdapter;
         private XmlParser mParse;
 
-        public ParseAsyncTask(ChangeLogAdapter adapter,XmlParser parse){
+        ParseAsyncTask(ChangeLogAdapter adapter, XmlParser parse){
             mAdapter=adapter;
             mParse= parse;
         }
@@ -179,8 +180,7 @@ public class ChangeLogListView extends ListView implements AdapterView.OnItemCli
 
             try{
                 if (mParse!=null){
-                    ChangeLog chg=mParse.readChangeLogFile();
-                    return chg;
+                    return mParse.readChangeLogFile();
                 }
             }catch (Exception e){
                 Log.e(TAG,getResources().getString(R.string.changelog_internal_error_parsing),e);
@@ -191,16 +191,8 @@ public class ChangeLogListView extends ListView implements AdapterView.OnItemCli
         protected void onPostExecute(ChangeLog chg) {
 
             //Notify data changed
-            if (chg!=null){
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
-                    mAdapter.addAll(chg.getRows());
-                }else{
-                    if(chg.getRows()!=null){
-                        for(ChangeLogRow row:chg.getRows()){
-                            mAdapter.add(row);
-                        }
-                    }
-                }
+            if (chg != null ){
+                mAdapter.addAll(chg.getRows());
                 mAdapter.notifyDataSetChanged();
             }
         }

@@ -1,6 +1,7 @@
 /*
  * ******************************************************************************
  *   Copyright (c) 2013-2015 Gabriele Mariotti.
+ *   Copyright (c) 2018 David Kurz.
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
@@ -19,7 +20,6 @@
 package it.gmariotti.changelibs.library.internal;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -31,9 +31,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import it.gmariotti.changelibs.R;
 import it.gmariotti.changelibs.library.Constants;
-import it.gmariotti.changelibs.library.view.ChangeLogRecyclerView;
 
 /**
  * Created by g.mariotti on 17/06/2015.
@@ -73,32 +74,33 @@ public class ChangeLogRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     // -------------------------------------------------------------
 
     public static class ViewHolderHeader extends RecyclerView.ViewHolder {
-        public TextView versionHeader;
-        public TextView dateHeader;
+        TextView versionHeader;
+        TextView dateHeader;
 
-        public ViewHolderHeader(View itemView) {
+        ViewHolderHeader(View itemView) {
             super(itemView);
             //VersionName text
-            versionHeader = (TextView) itemView.findViewById(R.id.chg_headerVersion);
+            versionHeader = itemView.findViewById(R.id.chg_headerVersion);
             //ChangeData text
-            dateHeader = (TextView) itemView.findViewById(R.id.chg_headerDate);
+            dateHeader = itemView.findViewById(R.id.chg_headerDate);
         }
     }
 
     public static class ViewHolderRow extends RecyclerView.ViewHolder {
-        public TextView textRow;
-        public TextView bulletRow;
+        TextView textRow;
+        TextView bulletRow;
 
-        public ViewHolderRow(View itemView) {
+        ViewHolderRow(View itemView) {
             super(itemView);
-            textRow = (TextView) itemView.findViewById(R.id.chg_text);
-            bulletRow = (TextView) itemView.findViewById(R.id.chg_textbullet);
+            textRow = itemView.findViewById(R.id.chg_text);
+            bulletRow = itemView.findViewById(R.id.chg_textbullet);
         }
     }
 
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER) {
             final View viewHeader = LayoutInflater.from(parent.getContext()).inflate(mRowHeaderLayoutId, parent, false);
             return new ViewHolderHeader(viewHeader);
@@ -109,7 +111,7 @@ public class ChangeLogRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int position) {
         if (isHeader(position)) {
             populateViewHolderHeader((ViewHolderHeader)viewHolder, position);
         } else {
@@ -141,8 +143,7 @@ public class ChangeLogRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                 StringBuilder sb = new StringBuilder();
                 //String resource for Version
                 String versionHeaderString = mContext.getString(mStringVersionHeader);
-                if (versionHeaderString != null)
-                    sb.append(versionHeaderString);
+                sb.append(versionHeaderString);
                 //VersionName text
                 sb.append(item.versionName);
 

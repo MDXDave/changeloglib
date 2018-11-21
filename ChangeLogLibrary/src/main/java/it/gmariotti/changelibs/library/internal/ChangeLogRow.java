@@ -1,18 +1,21 @@
-/*******************************************************************************
- * Copyright (c) 2013 Gabriele Mariotti.
+/*
+ * ******************************************************************************
+ *   Copyright (c) 2013-2015 Gabriele Mariotti.
+ *   Copyright (c) 2018 David Kurz.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *   Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- ******************************************************************************/
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
+ *  *****************************************************************************
+ */
 package it.gmariotti.changelibs.library.internal;
 
 import android.content.Context;
@@ -56,7 +59,7 @@ public class ChangeLogRow {
     /**
      * This corresponds to the android:versionCode attribute in your manifest file. It is an optional data.
      */
-    protected int versionCode;
+    private int versionCode;
 
     /**
      * Change data. It is optional
@@ -103,15 +106,15 @@ public class ChangeLogRow {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("header=" + header);
+        sb.append("header=").append(header);
         sb.append(",");
-        sb.append("versionName=" + versionName);
+        sb.append("versionName=").append(versionName);
         sb.append(",");
-        sb.append("versionCode=" + versionCode);
+        sb.append("versionCode=").append(versionCode);
         sb.append(",");
-        sb.append("bulletedList=" + bulletedList);
+        sb.append("bulletedList=").append(bulletedList);
         sb.append(",");
-        sb.append("changeText=" + changeText);
+        sb.append("changeText=").append(changeText);
         //sb.append(",");
         //sb.append("changeTextTitle="+changeTextTitle);
         return sb.toString();
