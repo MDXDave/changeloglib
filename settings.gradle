@@ -1,1 +1,1 @@
-include ':ChangeLogLibrary','ChangeLogDemo'
+include ':library','sample'
